@@ -14,8 +14,6 @@ import rtk_navigation.utils as utils
 
 from handy_msgs.action import Nav
 
-print("RUNNING PATH SERVER")
-
 pose = Pose()
 fix = NavSatFix()
 import rclpy
@@ -25,10 +23,11 @@ class GetThePosition(Node):
     def __init__(self):
         super().__init__('get_the_position')
         self.pub_ = self.create_publisher(Pose, '/pose/local', 10)
-        self.pose_sub = message_filters.Subscriber(self, Odometry, '/odometry/global')
-        self.fix_sub = message_filters.Subscriber(self, NavSatFix, '/gps')
-        self.pose_sub = message_filters.ApproximateTimeSynchronizer([self.pose_sub, self.fix_sub], 10, slop=10)
-        self.pose_sub.registerCallback(self.pose_callback)
+        self.odom_sub = message_filters.Subscriber(self, Odometry, '/rtk/odom')
+        self.fix_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/fix')
+        self.odom_sub = message_filters.ApproximateTimeSynchronizer([self.odom_sub, self.fix_sub], 10, slop=10)
+        self.odom_sub.registerCallback(self.pose_callback)
+        self.get_logger().info('Started PATH SERVER')
 
     def pose_callback(self, pose_sub, fix_sub):
         global pose
