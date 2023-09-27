@@ -5,7 +5,7 @@ from rclpy.node import Node
 from handy_msgs.action import Nav
 from nav_msgs.msg import Path
 
-positions = [(5.0, 5.0), (10.0, 10.0), (0.0, 10.0), (-5.0, 0.0)]
+positions = [(5.0, 5.0), (10.0, 5.0), (5.0, 0.0), (-5.0, 0.0) ,(-10.0, 5.0), (-5.0, 5.0), (0.0, 0.0)]
 
 class NaviAction(Node):
     def __init__(self):
@@ -31,9 +31,7 @@ class NaviAction(Node):
         if not goal_handle.accepted:
             self.get_logger().info('Goal rejected :(')
             return
-
         self.get_logger().info('Goal accepted :)')
-
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
 
