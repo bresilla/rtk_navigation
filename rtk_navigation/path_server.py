@@ -17,23 +17,27 @@ print("RUNNING PATH SERVER")
 
 pose = Pose()
 fix = NavSatFix()
-import rclpy
-from sensor_msgs.msg import NavSatFix
+dot = NavSatFix()
 
 class GetThePosition(Node):
     def __init__(self):
         super().__init__('get_the_position')
         self.pose_sub = message_filters.Subscriber(self, Odometry, '/rtk/odom')
         self.fix_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/fix')
-        self.pose_sub = message_filters.ApproximateTimeSynchronizer([self.pose_sub, self.fix_sub], 10, slop=10)
+        self.dot_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/dot')
+        self.pose_sub = message_filters.ApproximateTimeSynchronizer(
+            [self.pose_sub, self.fix_sub, self.dot_sub], 10, slop=10
+        )
         self.pose_sub.registerCallback(self.pose_callback)
 
-    def pose_callback(self, pose_sub, fix_sub):
+    def pose_callback(self, pose_sub, fix_sub, dot_sub):
         global pose
         global fix
+        global dot
         pose.position = pose_sub.pose.pose.position
         pose.orientation = pose_sub.pose.pose.orientation
         fix = fix_sub
+        dot = dot_sub
 
 
 class GoToPosition(Node):
