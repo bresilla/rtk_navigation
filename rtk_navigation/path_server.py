@@ -23,9 +23,8 @@ from sensor_msgs.msg import NavSatFix
 class GetThePosition(Node):
     def __init__(self):
         super().__init__('get_the_position')
-        self.pub_ = self.create_publisher(Pose, '/pose/local', 10)
-        self.pose_sub = message_filters.Subscriber(self, Odometry, '/odometry/global')
-        self.fix_sub = message_filters.Subscriber(self, NavSatFix, '/gps')
+        self.pose_sub = message_filters.Subscriber(self, Odometry, '/rtk/odom')
+        self.fix_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/fix')
         self.pose_sub = message_filters.ApproximateTimeSynchronizer([self.pose_sub, self.fix_sub], 10, slop=10)
         self.pose_sub.registerCallback(self.pose_callback)
 
@@ -35,7 +34,6 @@ class GetThePosition(Node):
         pose.position = pose_sub.pose.pose.position
         pose.orientation = pose_sub.pose.pose.orientation
         fix = fix_sub
-        self.pub_.publish(pose)
 
 
 class GoToPosition(Node):
@@ -83,7 +81,7 @@ class GoToPosition(Node):
         for i in points:
             target = i.pose.position
             self.target_pose_ = target
-            print(f"going to: {i}")
+            self.get_logger().info(f"going to: {target.x}, currently at: {pose.position}")
             while True:
                 if goal_handle.is_cancel_requested:
                     self.stop_moving()
@@ -113,27 +111,20 @@ class GoToPosition(Node):
         twist.angular.z = 0.0
         self.publisher_.publish(twist)
 
-    def get_nav_params(self, angle_max=0.5, velocity_max=0.1):
-        """
-        Calculate the distance, velocity, and angular error needed to move from the current position and orientation to the target position and orientation.
-
-        Args:
-            angle_max (float): The maximum allowable angular error in radians. Default value is 0.35 radians (approximately 20 degrees).
-            velocity_max (float): The maximum allowable velocity in m/s. Default value is 0.15 m/s.
-
-        Returns:
-            A tuple containing the distance, velocity, and angular error required to move to the target position and orientation.
-            - distance (float): The Euclidean distance between the current position and the target position in meters.
-            - velocity (float): The desired velocity in m/s based on the distance between the current position and the target position.
-            - angular (float): The desired angular error in radians based on the difference between the current orientation and the desired orientation.
-        """
-        distance = math.sqrt((self.target_pose_.x - self.current_pose_.x) ** 2 + (self.target_pose_.y - self.current_pose_.y) ** 2)
+    def get_nav_params(self, angle_max=0.2, velocity_max=0.1):
+        distance = math.sqrt(
+            (self.target_pose_.x - self.current_pose_.x) ** 2 + 
+            (self.target_pose_.y - self.current_pose_.y) ** 2)
         # calculate the desired velocity based on the distance to the target position
         velocity = 0.2 * distance
         # calculate the initial heading towards the target position
-        preheading = math.atan2(self.target_pose_.y - self.current_pose_.y, self.target_pose_.x - self.current_pose_.x)
+        preheading = math.atan2(
+            self.target_pose_.y - self.current_pose_.y, 
+            self.target_pose_.x - self.current_pose_.x
+            )
         # calculate the current orientation of the robot using quaternions
-        orientation = yaw = math.atan2(2 * (self.current_orientation_.w * self.current_orientation_.z + self.current_orientation_.x * self.current_orientation_.y), 
+        orientation = yaw = math.atan2(2 * (self.current_orientation_.w * self.current_orientation_.z + 
+                                            self.current_orientation_.x * self.current_orientation_.y), 
                                        1 - 2 * (self.current_orientation_.y**2 + self.current_orientation_.z**2))
         # calculate the difference between the initial heading and the robot's orientation
         heading = preheading - orientation
