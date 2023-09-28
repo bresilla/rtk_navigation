@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-def gps_to_local(origin, point):
+def gps_to_local(origin, point, round_digits=2):
     """
     Convert GPS coordinates to local coordinates relative to an origin point.
 
@@ -18,15 +18,15 @@ def gps_to_local(origin, point):
     lat2, lon2 = math.radians(point[0]), math.radians(point[1])
 
     # Calculate Earth radius at origin latitude
-    R = 6378137 / math.sqrt(1 - 0.006694 * math.pow(math.sin(lat1), 2))
+    R = 6_378_449 / math.sqrt(1 - 0.006694 * math.pow(math.sin(lat1), 2))
 
     # Calculate local coordinates
     x = (lon2 - lon1) * R * math.cos(lat1)
     y = (lat2 - lat1) * R
 
-    return (x, y)
+    return (round(x, round_digits), round(y, round_digits))
 
-def gps_to_local_array(origin, points):
+def gps_to_local_array(origin, points, round_digits=2):
     """
     Convert GPS coordinates to local coordinates relative to an origin point.
 
@@ -40,7 +40,7 @@ def gps_to_local_array(origin, points):
 
     local_points = []
     for point in points:
-        local_point = gps_to_local(origin, point)
+        local_point = gps_to_local(origin, point, round_digits)
         local_points.append(local_point)
 
     return local_points
@@ -58,20 +58,26 @@ def local_to_gps(origin, point):
         tuple: A tuple containing the GPS coordinates (latitude, longitude) of the point.
     """
 
-    # Convert decimal degrees to radians
-    lat1, lon1 = math.radians(origin[0]), math.radians(origin[1])
+    # Convert degrees to radians
+    lat_ref = math.radians(origin[0])
+    lon_ref = math.radians(origin[1])
 
-    # Calculate Earth radius at origin latitude
-    R = 6378137 / math.sqrt(1 - 0.006694 * math.pow(math.sin(lat1), 2))
+    # Earth's radius in meters
+    earth_radius = 6_367_137
 
-    # Calculate latitude and longitude
-    lat2 = lat1 + (point[1] / R)
-    lon2 = lon1 + (point[0] / (R * math.cos(lat1)))
+    # Convert local coordinates to meters
+    x = point[0]
+    y = point[1]
 
-    # Convert radians to decimal degrees
-    lat2, lon2 = math.degrees(lat2), math.degrees(lon2)
+    # Convert local coordinates to radians
+    x_rad = x / earth_radius
+    y_rad = y / earth_radius
 
-    return (lat2, lon2)
+    # Calculate new latitude and longitude
+    new_lat = math.degrees(lat_ref + y_rad)
+    new_lon = math.degrees(lon_ref + x_rad / math.cos(lat_ref))
+
+    return (new_lat, new_lon)
 
 def local_to_gps_array(origin, points):
     """

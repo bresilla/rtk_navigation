@@ -39,7 +39,6 @@ class GetThePosition(Node):
         fix = fix_sub
         dot = dot_sub
 
-
 class GoToPosition(Node):
     def __init__(self):
         super().__init__('go_to_position')
@@ -85,7 +84,7 @@ class GoToPosition(Node):
         for i in points:
             target = i.pose.position
             self.target_pose_ = target
-            self.get_logger().info(f"going to: {target.x}, currently at: {pose.position}")
+            self.get_logger().info(f"going to: {target}, currently at: {pose.position}")
             while True:
                 if goal_handle.is_cancel_requested:
                     self.stop_moving()
