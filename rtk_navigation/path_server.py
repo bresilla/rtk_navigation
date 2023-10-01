@@ -6,6 +6,8 @@ from nav_msgs.msg import Odometry
 from rclpy.action import ActionServer, CancelResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
+from nav_msgs.msg import Path
+from geometry_msgs.msg import PoseStamped
 import math
 import message_filters
 import threading
@@ -18,17 +20,37 @@ print("RUNNING PATH SERVER")
 pose = Pose()
 fix = NavSatFix()
 dot = NavSatFix()
+points = None
 
 class GetThePosition(Node):
     def __init__(self):
         super().__init__('get_the_position')
-        self.pose_sub = message_filters.Subscriber(self, Odometry, '/rtk/odom')
-        self.fix_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/fix')
-        self.dot_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/dot')
+        self.path = Path()
+        self.inited_waypoints = False
+        self._pose_sub = message_filters.Subscriber(self, Odometry, '/rtk/odom')
+        self._fix_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/fix')
+        self._dot_sub = message_filters.Subscriber(self, NavSatFix, '/rtk/dot')
         self.pose_sub = message_filters.ApproximateTimeSynchronizer(
-            [self.pose_sub, self.fix_sub, self.dot_sub], 10, slop=10
+            [self._pose_sub, self._fix_sub, self._dot_sub], 10, slop=10
         )
         self.pose_sub.registerCallback(self.pose_callback)
+
+        self.path_pub = self.create_publisher(Path, "/rtk/waypoints", 10)
+        self.path_timer = self.create_timer(2.0, self.path_callback)
+
+    def path_callback(self, msg=None):
+        # self.get_logger().info('PUBLISHING PATH')
+        self.path.header.stamp = self.get_clock().now().to_msg()
+        self.path.header.frame_id = "map"
+        if points is not None and self.inited_waypoints == False:
+            for i in points:
+                pose = PoseStamped()
+                pose.header = self.path.header
+                pose.pose.position.x = i.pose.position.x
+                pose.pose.position.y = i.pose.position.y
+                self.path.poses.append(pose)
+            self.inited_waypoints = True
+        self.path_pub.publish(self.path)
 
     def pose_callback(self, pose_sub, fix_sub, dot_sub):
         global pose
@@ -38,6 +60,7 @@ class GetThePosition(Node):
         pose.orientation = pose_sub.pose.pose.orientation
         fix = fix_sub
         dot = dot_sub
+
 
 class GoToPosition(Node):
     def __init__(self):
@@ -74,6 +97,7 @@ class GoToPosition(Node):
     async def execute_callback(self, goal_handle):
         global pose
         global fix
+        global points
         self.get_logger().info('Executing goal...')
         feedback_msg = Nav.Feedback()
         points = goal_handle.request.initial_path.poses
