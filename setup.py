@@ -27,9 +27,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'rtk_navigation = rtk_navigation.rtk_navigation:main',
             'path_server = rtk_navigation.path_server:main',
-            'twist_publisher = rtk_navigation.twist_publisher:main',
+            'old_server = rtk_navigation.old_server:main',
             'test_path = rtk_navigation.test_path:main',
         ],
         'launch.frontend.launch_extension': [

@@ -32,13 +32,6 @@ def generate_launch_description():
         # ),
         Node(
             package='rtk_navigation',
-            executable='rtk_navigation',
-            name='rtk_navigation',
-            output='screen',
-            parameters=[{'param2': LaunchConfiguration('param2')}],
-        ),
-        Node(
-            package='rtk_navigation',
             executable='path_server',
             name='path_server',
             output='screen',

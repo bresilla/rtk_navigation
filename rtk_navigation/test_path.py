@@ -3,23 +3,22 @@ from rclpy.action import ActionClient
 from geometry_msgs.msg import PoseStamped, Point, Quaternion
 from rclpy.node import Node
 from handy_msgs.action import Nav
-import rtk_navigation.utils as utils
 from sensor_msgs.msg import NavSatFix
 
 
 positions = [
-    (0.0, 0.0),
-    (20.0, 0.0),
-    (20.0, 2.0),
-    (0.0, 2.0),
-    (0.0, 4.0),
-    (20.0, 4.0),
-    (20.0, 6.0),
-    (0.0, 6.0),
-    (0.0, 8.0),
-    (20.0, 8.0),
-    (20.0, 10.0),
-    (0.0, 10.0),
+    (3.0, -4.0),
+    (26.0, -4.0),
+    (26.0, -6.0),
+    (3, -6.0),
+    (3, -8.0),
+    (26.0, -8.0),
+    (26.0, -10.0),
+    (3.0, -10.0),
+    (3.0, -12.0),
+    (26.0, -12.0),
+    (26.0, -14.0),
+    (3.0, -14.0),
     (0.0, 0.0)
 ]
 
@@ -46,7 +45,7 @@ class NaviAction(Node):
         self.dot = None
         self.gps = gps
         self._action_client = ActionClient(self, Nav, '/navigation')
-        self.gps_sub = self.create_subscription(NavSatFix, "/rtk/dot", self.dot_callback, 10)
+        self.gps_sub = self.create_subscription(NavSatFix, "/fix/datum/gps", self.dot_callback, 10)
         
     def dot_callback(self, msg):
         if self.dot is None: 
@@ -57,6 +56,7 @@ class NaviAction(Node):
     def send_goal(self, order):
         goal_msg = Nav.Goal()
         if self.gps == True:
+            return
             for i in nav_path:
                 x, y = utils.gps_to_local((self.dot.latitude, self.dot.longitude), i)
                 pose = PoseStamped()
@@ -68,8 +68,8 @@ class NaviAction(Node):
         else:
             for i in positions:
                 pose = PoseStamped()
-                pose.pose.position.x = i[1]
-                pose.pose.position.y = i[0]
+                pose.pose.position.x = float(i[0])
+                pose.pose.position.y = float(i[1])
                 pose.pose.position.z = 0.0
                 pose.pose.orientation = Quaternion()
                 goal_msg.initial_path.poses.append(pose)
@@ -97,7 +97,7 @@ class NaviAction(Node):
 
 
 def navy(args=None):
-    node = NaviAction(gps=True)
+    node = NaviAction()
     rclpy.spin(node)
     node.shutdown()
 
