@@ -1,8 +1,0 @@
-[console_scripts]
-old_server = rtk_navigation.old_server:main
-path_server = rtk_navigation.path_server:main
-test_path = rtk_navigation.test_path:main
-
-[launch.frontend.launch_extension]
-launch_ros = launch_ros
-
