@@ -20,7 +20,6 @@ pose = Pose()
 gps = NavSatFix()
 datum = NavSatFix()
 points = None
-navpath = Path()
 
 class GetThePosition(Node):
     def __init__(self):
@@ -101,10 +100,6 @@ class GoToPosition(Node):
         self.get_logger().info('Executing goal...')
         feedback_msg = Nav.Feedback()
         points = goal_handle.request.initial_path.poses
-        if goal_handle.request.abort == True:
-            self.stop_moving()
-            goal_handle.abort()
-            return Nav.Result()
         new_points = []
         for i in points:
             new_points.append((i.pose.position.x, i.pose.position.y))
@@ -115,7 +110,6 @@ class GoToPosition(Node):
             while True:
                 if goal_handle.is_cancel_requested:
                     self.stop_moving()
-                    goal_handle.canceled()
                     return Nav.Result()
                 if not goal_handle.is_active:
                     self.stop_moving()

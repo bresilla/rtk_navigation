@@ -1,0 +1,52 @@
+[1.560s] Invoking command in '/doc/code/ROBO/rtk_navigation/src/rtk_navigation': PYTHONPATH=/doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/prefix_override:/doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/rtk_navigation build --build-base /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build install --record /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/install.log --single-version-externally-managed
+[1.967s] running egg_info
+[1.967s] creating build/rtk_navigation/rtk_navigation.egg-info
+[1.967s] writing build/rtk_navigation/rtk_navigation.egg-info/PKG-INFO
+[1.968s] writing dependency_links to build/rtk_navigation/rtk_navigation.egg-info/dependency_links.txt
+[1.968s] writing entry points to build/rtk_navigation/rtk_navigation.egg-info/entry_points.txt
+[1.968s] writing requirements to build/rtk_navigation/rtk_navigation.egg-info/requires.txt
+[1.968s] writing top-level names to build/rtk_navigation/rtk_navigation.egg-info/top_level.txt
+[1.968s] writing manifest file 'build/rtk_navigation/rtk_navigation.egg-info/SOURCES.txt'
+[1.970s] reading manifest file 'build/rtk_navigation/rtk_navigation.egg-info/SOURCES.txt'
+[1.970s] adding license file 'LICENSE.md'
+[1.970s] adding license file 'AUTHORS.md'
+[1.971s] writing manifest file 'build/rtk_navigation/rtk_navigation.egg-info/SOURCES.txt'
+[1.971s] running build
+[1.971s] running build_py
+[1.972s] creating /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build
+[1.972s] creating /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib
+[1.972s] creating /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation
+[1.972s] copying rtk_navigation/path_server.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation
+[1.972s] copying rtk_navigation/__init__.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation
+[1.972s] copying rtk_navigation/old_server.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation
+[1.972s] copying rtk_navigation/test_path.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation
+[1.972s] copying rtk_navigation/path_server copy.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation
+[1.972s] running install
+[1.972s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.973s]   warnings.warn(
+[1.973s] running install_lib
+[1.974s] creating /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation
+[1.974s] copying /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation/path_server.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation
+[1.974s] copying /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation/__init__.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation
+[1.974s] copying /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation/old_server.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation
+[1.974s] copying /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation/test_path.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation
+[1.974s] copying /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build/lib/rtk_navigation/path_server copy.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation
+[1.975s] byte-compiling /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation/path_server.py to path_server.cpython-310.pyc
+[1.976s] byte-compiling /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation/__init__.py to __init__.cpython-310.pyc
+[1.976s] byte-compiling /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation/old_server.py to old_server.cpython-310.pyc
+[1.977s] byte-compiling /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation/test_path.py to test_path.cpython-310.pyc
+[1.978s] byte-compiling /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation/path_server copy.py to path_server copy.cpython-310.pyc
+[1.979s] running install_data
+[1.980s] creating /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/share/rtk_navigation/resource
+[1.980s] copying resource/rtk_navigation -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/share/rtk_navigation/resource
+[1.980s] copying package.xml -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/share/rtk_navigation
+[1.980s] copying launch/navigation.launch.py -> /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/share/rtk_navigation
+[1.981s] creating /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/share/rtk_navigation/params
+[1.981s] running install_egg_info
+[1.982s] Copying build/rtk_navigation/rtk_navigation.egg-info to /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages/rtk_navigation-0.0.0-py3.10.egg-info
+[1.983s] running install_scripts
+[2.011s] Installing old_server script to /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/rtk_navigation
+[2.011s] Installing path_server script to /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/rtk_navigation
+[2.011s] Installing test_path script to /doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/rtk_navigation
+[2.012s] writing list of installed files to '/doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/install.log'
+[2.037s] Invoked command in '/doc/code/ROBO/rtk_navigation/src/rtk_navigation' returned '0': PYTHONPATH=/doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/prefix_override:/doc/code/ROBO/rtk_navigation/src/rtk_navigation/install/rtk_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/rtk_navigation build --build-base /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/build install --record /doc/code/ROBO/rtk_navigation/src/rtk_navigation/build/rtk_navigation/install.log --single-version-externally-managed
